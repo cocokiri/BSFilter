@@ -1,10 +1,4 @@
-
-
-
-
-
-
-export default function() {
+export default function () {
 
 
     console.log("ASHDASDASD")
