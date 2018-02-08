@@ -74,6 +74,10 @@ document.body.appendChild(FontAwesome);
 const wisContainer = document.createElement("div");
 wisContainer.setAttribute("class", "wisContainer")
 
+setTimeout(function(){
+    console.log("time over at inject")
+}, 3000)
+
 
 window.addEventListener("load", function () {
     wisContainer.appendChild(feedback);

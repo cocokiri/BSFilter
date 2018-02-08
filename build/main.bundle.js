@@ -121,13 +121,7 @@ exports.ClientError = ClientError;
 "use strict";
 
 
-var _graphtest = __webpack_require__(2);
-
-var _graphtest2 = _interopRequireDefault(_graphtest);
-
-var _graphqlRequest = __webpack_require__(3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _graphqlRequest = __webpack_require__(2);
 
 var query = '{hello(name:"Hackmind"){message}}';
 
@@ -141,7 +135,29 @@ console.log("new");
 var ids = ["icon-Meh.", "icon-Wow", "icon-BS!"];
 console.log(document.readyState, "doc State");
 
-ready(setUp);
+document.onreadystatechange = function () {
+    if (document.readyState === 'complete') {
+        // document is ready
+        window.setTimeout(function () {
+            console.log('document is reaydy ...', window.document, document.getElementsByTagName("body"));
+
+            var buttons = ids.map(function (e) {
+                return document.getElementById(e);
+            });
+            console.log(buttons, "Button!");
+            buttons.map(function (e, i) {
+                console.log(e, "button");
+                e.addEventListener("click", function (ev) {
+                    console.log("you clicked " + i + " yee");
+                });
+            });
+        }, 2000);
+    } else {
+        console.log("ASDASD- not ready yet");
+    }
+};
+
+// ready(setup);
 
 function setUp() {
     var buttons = ids.map(function (e) {
@@ -157,53 +173,17 @@ function setUp() {
 }
 
 function ready(fn) {
-    if (document.readyState != 'complete') {
+    if (document.readyState !== 'complete') {
         document.addEventListener('DOMContentLoaded', fn);
     } else {
         fn();
     }
 }
 
-ready(function () {
-    // start up your app
-});
-
-// const FeedbackStruct = {
-//     meh: {
-//         tooltip: "Meh.",
-//         iconClass: "fab fa-sticker-mule",
-//         id: "icon-Meh."
-//     },
-//     amazing: {
-//         tooltip: "Wow",
-//         iconClass: "fab fa-studiovinari",
-//         id: "icon-Wow"
-//     },
-//     bullshit: {
-//         tooltip: "BS!",
-//         iconClass: "fas fa-times",
-//         id: "icon-BS!"
-//     }
-// }
+console.log('tuuuut');
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-exports.default = function () {
-
-    console.log("other script graphtest");
-};
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -310,7 +290,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __webpack_require__(0);
 var types_2 = __webpack_require__(0);
 exports.ClientError = types_2.ClientError;
-__webpack_require__(4);
+__webpack_require__(3);
 function request(url, query, variables) {
     return __awaiter(this, void 0, void 0, function () {
         var client;
@@ -394,7 +374,7 @@ function getResult(response) {
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

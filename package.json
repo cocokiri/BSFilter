@@ -8,10 +8,6 @@
     "start": "http-server",
     "webpack": "webpack"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ccoenraets/es6-tutorial.git"
-  },
   "author": "",
   "license": "ISC",
   "bugs": {
