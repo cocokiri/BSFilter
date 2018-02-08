@@ -132,10 +132,59 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var query = '{hello(name:"Hackmind"){message}}';
 
 (0, _graphqlRequest.request)('https://api.graph.cool/simple/v1/cjdd66m810f1s0165fe0efssz', query).then(function (data) {
-  return console.log(data);
+    return console.log(data);
 });
 
-console.log(_graphtest2.default);
+// console.log(graphtest)
+console.log("new");
+
+var ids = ["icon-Meh.", "icon-Wow", "icon-BS!"];
+console.log(document.readyState, "doc State");
+
+ready(setUp);
+
+function setUp() {
+    var buttons = ids.map(function (e) {
+        return document.getElementById(e);
+    });
+    console.log("Button!");
+    buttons.map(function (e, i) {
+        console.log(e, "button");
+        e.addEventListener("click", function (ev) {
+            console.log("you clicked " + i + " yee");
+        });
+    });
+}
+
+function ready(fn) {
+    if (document.readyState != 'complete') {
+        document.addEventListener('DOMContentLoaded', fn);
+    } else {
+        fn();
+    }
+}
+
+ready(function () {
+    // start up your app
+});
+
+// const FeedbackStruct = {
+//     meh: {
+//         tooltip: "Meh.",
+//         iconClass: "fab fa-sticker-mule",
+//         id: "icon-Meh."
+//     },
+//     amazing: {
+//         tooltip: "Wow",
+//         iconClass: "fab fa-studiovinari",
+//         id: "icon-Wow"
+//     },
+//     bullshit: {
+//         tooltip: "BS!",
+//         iconClass: "fas fa-times",
+//         id: "icon-BS!"
+//     }
+// }
 
 /***/ }),
 /* 2 */
@@ -150,7 +199,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = function () {
 
-    console.log("ASHDASDASD");
+    console.log("other script graphtest");
 };
 
 /***/ }),

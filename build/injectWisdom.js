@@ -10,23 +10,23 @@ console.log("InjectWisdom")
 // document.body.children
 
 
-const str = `Ladila`
-
 const FeedbackStruct = {
+    bullshit: {
+        tooltip: "BS!",
+        iconClass: "fas fa-times",
+        id: "icon-BS!"
+    },
     meh: {
         tooltip: "Meh.",
-        iconClass: "fab fa-sticker-mule"
+        iconClass: "fab fa-sticker-mule",
+        id: "icon-Meh."
     },
     amazing: {
         tooltip: "Wow",
-        iconClass: "fab fa-studiovinari"
-    },
-    bullshit: {
-        tooltip: "BS!",
-        iconClass: "fas fa-times"
+        iconClass: "fab fa-studiovinari",
+        id: "icon-Wow"
     }
 }
-
 
 
 const feedback = document.createElement("section");
@@ -44,6 +44,10 @@ for (let f in FeedbackStruct) {
 
         icons[c].setAttribute("class", FeedbackStruct[f]["iconClass"]);
         icons[c].setAttribute("title", FeedbackStruct[f]["tooltip"]); //doesn't do anything
+        icons[c].setAttribute("id", FeedbackStruct[f]["id"]); //doesn't do anything
+
+        icons[c].setAttribute("data-tooltip", FeedbackStruct[f]["tooltip"]); //doesn't do anything
+
 
         texts[c] = document.createElement("span");
         texts[c].innerText = FeedbackStruct[f]["tooltip"];
@@ -68,14 +72,12 @@ FontAwesome.setAttribute("src", "https://use.fontawesome.com/releases/v5.0.6/js/
 document.body.appendChild(FontAwesome);
 
 const wisContainer = document.createElement("div");
-wisContainer.setAttribute("class","wisContainer")
+wisContainer.setAttribute("class", "wisContainer")
 
 
-window.onload = function () {
-
-
+window.addEventListener("load", function () {
     wisContainer.appendChild(feedback);
     wisContainer.appendChild(textbox)
 
     document.body.appendChild(wisContainer);
-}
+})

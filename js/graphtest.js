@@ -7,5 +7,5 @@
 export default function() {
 
 
-    console.log("ASHDASDASD")
+    console.log("other script graphtest")
 }
