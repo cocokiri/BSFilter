@@ -125,15 +125,32 @@ var _graphqlRequest = __webpack_require__(2);
 
 var query = '{hello(name:"Hackmind"){message}}';
 
+var postOpinionLoc = "https://api.graph.cool/simple/v1/cjdeskbto3tuh011134m3pto9";
+
 (0, _graphqlRequest.request)('https://api.graph.cool/simple/v1/cjdd66m810f1s0165fe0efssz', query).then(function (data) {
     return console.log(data);
 });
 
-// console.log(graphtest)
-console.log("new");
+function postVote(pageURL, vote) {
 
-var ids = ["icon-Meh.", "icon-Wow", "icon-BS!"];
-console.log(document.readyState, "doc State");
+    var myQuery = "some";
+    //request();
+}
+
+var requestAll = 'query {\n    allReviews(orderBy:review_ASC) {\n        review\n        reviewedBy\n        id\n        url\n    }\n}';
+
+var currentUser = localStorage.getItem("user") || "unregistered";
+
+var ids = ["icon-BS!", "icon-Meh.", "icon-Wow"];
+
+var ids2 = [{
+    DOMid: "icon-BS!",
+    voteValue: -1
+}];
+
+function getPageURL() {
+    return window.location.href;
+}
 
 document.onreadystatechange = function () {
     if (document.readyState === 'complete') {
@@ -141,14 +158,29 @@ document.onreadystatechange = function () {
         window.setTimeout(function () {
             console.log('document is reaydy ...', window.document, document.getElementsByTagName("body"));
 
+            //GET ICONs from DOM
             var buttons = ids.map(function (e) {
                 return document.getElementById(e);
             });
             console.log(buttons, "Button!");
+
+            (0, _graphqlRequest.request)(postOpinionLoc, requestAll).then(function (data) {
+                return console.log(data, "ALL");
+            });
+
+            //MAKE THEM BUTTONS
             buttons.map(function (e, i) {
-                console.log(e, "button");
                 e.addEventListener("click", function (ev) {
+                    var myPage = getPageURL();
+                    //postVote();
                     console.log("you clicked " + i + " yee");
+                    var f = (0, _graphqlRequest.request)(postOpinionLoc, ' mutation {\n  createReview(review: ' + (i - 1) + ', \n  reviewedBy: "Hackmind",\n  user: "' + currentUser + '",\n  url: "' + myPage + '"){\n    review\n    reviewedBy\n    url\n    user\n  }\n} ').then(function (data) {
+                        //AFTER VOTE
+                        // changeIconBarToInputBar();
+
+
+                        console.log("aahhhhh smth is back", data);
+                    });
                 });
             });
         }, 2000);
@@ -157,30 +189,7 @@ document.onreadystatechange = function () {
     }
 };
 
-// ready(setup);
-
-function setUp() {
-    var buttons = ids.map(function (e) {
-        return document.getElementById(e);
-    });
-    console.log("Button!");
-    buttons.map(function (e, i) {
-        console.log(e, "button");
-        e.addEventListener("click", function (ev) {
-            console.log("you clicked " + i + " yee");
-        });
-    });
-}
-
-function ready(fn) {
-    if (document.readyState !== 'complete') {
-        document.addEventListener('DOMContentLoaded', fn);
-    } else {
-        fn();
-    }
-}
-
-console.log('tuuuut');
+console.log('bundle.main.js ran through');
 
 /***/ }),
 /* 2 */

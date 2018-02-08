@@ -43,11 +43,12 @@
 }
 
 .wisContainer {
-  bottom: 1vh;
+  bottom: 5vh;
+  right: 0vh;
   position: fixed;
   align-self:center;
-  max-width: 40vw;
-  min-width: 30vw;
+  max-width: 30vw;
+  min-width: 20vw;
 }
 
 .fa-sticker-mule:hover .tooltiptext {
@@ -74,7 +75,7 @@
   /*min-width: 20vw;*/
   text-align:center;
   background: black;
-  min-height:2rem;
+  min-height:1.2rem;
   color: #fcffea;
   box-shadow: 0px 1px 1px rgba(50, 50, 50, 0.75);
   padding-left:0.3rem;
