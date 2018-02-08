@@ -1,0 +1,11 @@
+types: ./types.graphql
+
+
+permissions:
+
+- operation: Review.create
+- operation: Review.update
+- operation: Review.delete
+- operation: Review.read
+
+

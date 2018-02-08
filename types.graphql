@@ -1,0 +1,8 @@
+type Review @model {
+    id: ID! @isUnique
+    review: Int!
+    reviewedBy: String!
+    user: String!
+    url: String!
+}
+

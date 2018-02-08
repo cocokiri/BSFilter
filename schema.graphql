@@ -1,0 +1,689 @@
+enum _ModelMutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+# Meta information about the query.
+type _QueryMeta {
+  count: Int!
+}
+
+type AddToVisitedPagesPayload {
+  viewedByUser: User
+  visitedPage: Page
+}
+
+input CreatePage {
+  url: String!
+  viewedByIds: [ID!]
+  viewedBy: [PageviewedByUser!]
+}
+
+input CreateUser {
+  email: String!
+  name: String!
+  reviewed: Float
+  visitedIds: [ID!]
+  visited: [UservisitedPage!]
+}
+
+type Mutation {
+  createPage(url: String!, viewedByIds: [ID!], viewedBy: [PageviewedByUser!]): Page
+  updatePage(id: ID!, url: String, viewedByIds: [ID!], viewedBy: [PageviewedByUser!]): Page
+  updateUser(email: String, id: ID!, name: String, reviewed: Float, visitedIds: [ID!], visited: [UservisitedPage!]): User
+  updateOrCreatePage(update: UpdatePage!, create: CreatePage!): Page
+  updateOrCreateUser(update: UpdateUser!, create: CreateUser!): User
+  deletePage(id: ID!): Page
+  deleteUser(id: ID!): User
+  addToVisitedPages(visitedPageId: ID!, viewedByUserId: ID!): AddToVisitedPagesPayload
+  removeFromVisitedPages(visitedPageId: ID!, viewedByUserId: ID!): RemoveFromVisitedPagesPayload
+  createUser(email: String!, name: String!, reviewed: Float, visitedIds: [ID!], visited: [UservisitedPage!]): User
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+type Page implements Node {
+  id: ID!
+  url: String!
+  viewedBy(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+
+  # Meta information about the query.
+  _viewedByMeta(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+}
+
+input PageFilter {
+  # Logical AND on all given filters.
+  AND: [PageFilter!]
+
+  # Logical OR on all given filters.
+  OR: [PageFilter!]
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  url: String
+
+  # All values that are not equal to given value.
+  url_not: String
+
+  # All values that are contained in given list.
+  url_in: [String!]
+
+  # All values that are not contained in given list.
+  url_not_in: [String!]
+
+  # All values less than the given value.
+  url_lt: String
+
+  # All values less than or equal the given value.
+  url_lte: String
+
+  # All values greater than the given value.
+  url_gt: String
+
+  # All values greater than or equal the given value.
+  url_gte: String
+
+  # All values containing the given string.
+  url_contains: String
+
+  # All values not containing the given string.
+  url_not_contains: String
+
+  # All values starting with the given string.
+  url_starts_with: String
+
+  # All values not starting with the given string.
+  url_not_starts_with: String
+
+  # All values ending with the given string.
+  url_ends_with: String
+
+  # All values not ending with the given string.
+  url_not_ends_with: String
+  viewedBy_every: UserFilter
+  viewedBy_some: UserFilter
+  viewedBy_none: UserFilter
+}
+
+enum PageOrderBy {
+  id_ASC
+  id_DESC
+  url_ASC
+  url_DESC
+}
+
+type PagePreviousValues {
+  id: ID!
+  url: String!
+}
+
+input PageSubscriptionFilter {
+  # Logical AND on all given filters.
+  AND: [PageSubscriptionFilter!]
+
+  # Logical OR on all given filters.
+  OR: [PageSubscriptionFilter!]
+
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [_ModelMutationType!]
+
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: PageSubscriptionFilterNode
+}
+
+input PageSubscriptionFilterNode {
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  url: String
+
+  # All values that are not equal to given value.
+  url_not: String
+
+  # All values that are contained in given list.
+  url_in: [String!]
+
+  # All values that are not contained in given list.
+  url_not_in: [String!]
+
+  # All values less than the given value.
+  url_lt: String
+
+  # All values less than or equal the given value.
+  url_lte: String
+
+  # All values greater than the given value.
+  url_gt: String
+
+  # All values greater than or equal the given value.
+  url_gte: String
+
+  # All values containing the given string.
+  url_contains: String
+
+  # All values not containing the given string.
+  url_not_contains: String
+
+  # All values starting with the given string.
+  url_starts_with: String
+
+  # All values not starting with the given string.
+  url_not_starts_with: String
+
+  # All values ending with the given string.
+  url_ends_with: String
+
+  # All values not ending with the given string.
+  url_not_ends_with: String
+  viewedBy_every: UserFilter
+  viewedBy_some: UserFilter
+  viewedBy_none: UserFilter
+}
+
+type PageSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: Page
+  updatedFields: [String!]
+  previousValues: PagePreviousValues
+}
+
+input PageviewedByUser {
+  email: String!
+  name: String!
+  reviewed: Float
+  visitedIds: [ID!]
+  visited: [UservisitedPage!]
+}
+
+type Query {
+  allPages(filter: PageFilter, orderBy: PageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Page!]!
+  allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [User!]!
+  _allPagesMeta(filter: PageFilter, orderBy: PageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  _allUsersMeta(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+  Page(id: ID, url: String): Page
+  User(email: String, id: ID): User
+  user: User
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+type RemoveFromVisitedPagesPayload {
+  viewedByUser: User
+  visitedPage: Page
+}
+
+type Subscription {
+  Page(filter: PageSubscriptionFilter): PageSubscriptionPayload
+  User(filter: UserSubscriptionFilter): UserSubscriptionPayload
+}
+
+input UpdatePage {
+  id: ID!
+  url: String
+  viewedByIds: [ID!]
+  viewedBy: [PageviewedByUser!]
+}
+
+input UpdateUser {
+  email: String
+  id: ID!
+  name: String
+  reviewed: Float
+  visitedIds: [ID!]
+  visited: [UservisitedPage!]
+}
+
+type User implements Node {
+  email: String!
+  id: ID!
+  name: String!
+  reviewed: Float
+  visited(filter: PageFilter, orderBy: PageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): [Page!]
+
+  # Meta information about the query.
+  _visitedMeta(filter: PageFilter, orderBy: PageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): _QueryMeta!
+}
+
+input UserFilter {
+  # Logical AND on all given filters.
+  AND: [UserFilter!]
+
+  # Logical OR on all given filters.
+  OR: [UserFilter!]
+  email: String
+
+  # All values that are not equal to given value.
+  email_not: String
+
+  # All values that are contained in given list.
+  email_in: [String!]
+
+  # All values that are not contained in given list.
+  email_not_in: [String!]
+
+  # All values less than the given value.
+  email_lt: String
+
+  # All values less than or equal the given value.
+  email_lte: String
+
+  # All values greater than the given value.
+  email_gt: String
+
+  # All values greater than or equal the given value.
+  email_gte: String
+
+  # All values containing the given string.
+  email_contains: String
+
+  # All values not containing the given string.
+  email_not_contains: String
+
+  # All values starting with the given string.
+  email_starts_with: String
+
+  # All values not starting with the given string.
+  email_not_starts_with: String
+
+  # All values ending with the given string.
+  email_ends_with: String
+
+  # All values not ending with the given string.
+  email_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  reviewed: Float
+
+  # All values that are not equal to given value.
+  reviewed_not: Float
+
+  # All values that are contained in given list.
+  reviewed_in: [Float!]
+
+  # All values that are not contained in given list.
+  reviewed_not_in: [Float!]
+
+  # All values less than the given value.
+  reviewed_lt: Float
+
+  # All values less than or equal the given value.
+  reviewed_lte: Float
+
+  # All values greater than the given value.
+  reviewed_gt: Float
+
+  # All values greater than or equal the given value.
+  reviewed_gte: Float
+  visited_every: PageFilter
+  visited_some: PageFilter
+  visited_none: PageFilter
+}
+
+enum UserOrderBy {
+  email_ASC
+  email_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  reviewed_ASC
+  reviewed_DESC
+}
+
+type UserPreviousValues {
+  email: String!
+  id: ID!
+  name: String!
+  reviewed: Float
+}
+
+input UserSubscriptionFilter {
+  # Logical AND on all given filters.
+  AND: [UserSubscriptionFilter!]
+
+  # Logical OR on all given filters.
+  OR: [UserSubscriptionFilter!]
+
+  # The subscription event gets dispatched when it's listed in mutation_in
+  mutation_in: [_ModelMutationType!]
+
+  # The subscription event gets only dispatched when one of the updated fields names is included in this list
+  updatedFields_contains: String
+
+  # The subscription event gets only dispatched when all of the field names included in this list have been updated
+  updatedFields_contains_every: [String!]
+
+  # The subscription event gets only dispatched when some of the field names included in this list have been updated
+  updatedFields_contains_some: [String!]
+  node: UserSubscriptionFilterNode
+}
+
+input UserSubscriptionFilterNode {
+  email: String
+
+  # All values that are not equal to given value.
+  email_not: String
+
+  # All values that are contained in given list.
+  email_in: [String!]
+
+  # All values that are not contained in given list.
+  email_not_in: [String!]
+
+  # All values less than the given value.
+  email_lt: String
+
+  # All values less than or equal the given value.
+  email_lte: String
+
+  # All values greater than the given value.
+  email_gt: String
+
+  # All values greater than or equal the given value.
+  email_gte: String
+
+  # All values containing the given string.
+  email_contains: String
+
+  # All values not containing the given string.
+  email_not_contains: String
+
+  # All values starting with the given string.
+  email_starts_with: String
+
+  # All values not starting with the given string.
+  email_not_starts_with: String
+
+  # All values ending with the given string.
+  email_ends_with: String
+
+  # All values not ending with the given string.
+  email_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  reviewed: Float
+
+  # All values that are not equal to given value.
+  reviewed_not: Float
+
+  # All values that are contained in given list.
+  reviewed_in: [Float!]
+
+  # All values that are not contained in given list.
+  reviewed_not_in: [Float!]
+
+  # All values less than the given value.
+  reviewed_lt: Float
+
+  # All values less than or equal the given value.
+  reviewed_lte: Float
+
+  # All values greater than the given value.
+  reviewed_gt: Float
+
+  # All values greater than or equal the given value.
+  reviewed_gte: Float
+  visited_every: PageFilter
+  visited_some: PageFilter
+  visited_none: PageFilter
+}
+
+type UserSubscriptionPayload {
+  mutation: _ModelMutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UservisitedPage {
+  url: String!
+  viewedByIds: [ID!]
+  viewedBy: [PageviewedByUser!]
+}
+
