@@ -10,14 +10,12 @@
     "browsingData"
   ],
   "background": {
-    "scripts": ["popup.js"],
-    "persistent": true
   },
   "content_scripts":
   [{
       "matches":["https://*/*", "http://*/*"],
       "match_about_blank": true,
-      "js": ["popup.js", "injectWisdom.js", "main.bundle.js"],
+      "js": ["injectWisdom.js", "main.bundle.js"],
       "css": ["style.css"]
   }],
 

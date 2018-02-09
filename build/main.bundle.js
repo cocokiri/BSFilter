@@ -132,14 +132,11 @@ var postOpinionLoc = "https://api.graph.cool/simple/v1/cjdeskbto3tuh011134m3pto9
 });
 
 function postVote(pageURL, vote) {
-
     var myQuery = "some";
     //request();
 }
 
 var requestAll = 'query {\n    allReviews(orderBy:review_ASC) {\n        review\n        reviewedBy\n        id\n        url\n    }\n}';
-
-var currentUser = localStorage.getItem("user") || "unregistered";
 
 var ids = ["icon-BS!", "icon-Meh.", "icon-Wow"];
 
@@ -152,6 +149,9 @@ function getPageURL() {
     return window.location.href;
 }
 
+var opinionAr = void 0;
+var submitButton = void 0;
+
 document.onreadystatechange = function () {
     if (document.readyState === 'complete') {
         // document is ready
@@ -162,11 +162,23 @@ document.onreadystatechange = function () {
             var buttons = ids.map(function (e) {
                 return document.getElementById(e);
             });
+            opinionAr = document.getElementsByClassName("opinionArea")[0];
+            submitButton = document.getElementsByClassName("submitBtn")[0];
+
+            submitTextBtn.addEventListener("click", function () {
+
+                // request()
+                submitTextBtn.setAttribute("id", "hidden");
+                opinionText.setAttribute("id", "hidden");
+            });
+
             console.log(buttons, "Button!");
 
             (0, _graphqlRequest.request)(postOpinionLoc, requestAll).then(function (data) {
                 return console.log(data, "ALL");
             });
+
+            var currentUser = localStorage.getItem("user") || "unregistered";
 
             //MAKE THEM BUTTONS
             buttons.map(function (e, i) {
@@ -178,6 +190,8 @@ document.onreadystatechange = function () {
                         //AFTER VOTE
                         // changeIconBarToInputBar();
 
+                        submitTextBtn.setAttribute("id", "show");
+                        opinionText.setAttribute("id", "show");
 
                         console.log("aahhhhh smth is back", data);
                     });

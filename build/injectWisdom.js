@@ -1,13 +1,17 @@
 console.log("InjectWisdom")
 
+const opinionText = document.createElement('textarea')
+opinionText.setAttribute("class", "opinionArea")
+opinionText.value = `//your opinion => ...`
 
-//if node has textcontent
-//and it is > 20 words
-//add to sum
 
-//count words on site
+const submitTextBtn = document.createElement('span')
+submitTextBtn.setAttribute("class", "submitBtn")
+submitTextBtn.innerText = "SUBMIT"
 
-// document.body.children
+submitTextBtn.setAttribute("id", "hidden");
+opinionText.setAttribute("id", "hidden")
+
 
 
 const FeedbackStruct = {
@@ -28,10 +32,10 @@ const FeedbackStruct = {
     }
 }
 
-
-
-
 const feedback = document.createElement("section");
+
+
+
 feedback.setAttribute("class", "iconBar")
 const feedbacktext = document.createElement("span");
 const icons = [1, 1, 1].map(e => document.createElement("i"))
@@ -50,7 +54,6 @@ for (let f in FeedbackStruct) {
 
         icons[c].setAttribute("data-tooltip", FeedbackStruct[f]["tooltip"]); //doesn't do anything
 
-
         texts[c] = document.createElement("span");
         texts[c].innerText = FeedbackStruct[f]["tooltip"];
         c++;
@@ -65,10 +68,6 @@ for (let t of texts) {
     textbox.appendChild(t);
 }
 
-
-// const text1 = document.createElement("span");
-// text1.innerText = "JA HALLO";
-
 const FontAwesome = document.createElement("script");
 FontAwesome.setAttribute("src", "https://use.fontawesome.com/releases/v5.0.6/js/all.js")
 document.body.appendChild(FontAwesome);
@@ -77,8 +76,13 @@ const wisContainer = document.createElement("div");
 wisContainer.setAttribute("class", "wisContainer")
 
 window.addEventListener("load", function () {
+    wisContainer.appendChild(opinionText)
+    wisContainer.appendChild(submitTextBtn)
+
     wisContainer.appendChild(feedback);
     wisContainer.appendChild(textbox)
 
     document.body.appendChild(wisContainer);
+
+    localStorage.setItem("user", "ryan")
 })
