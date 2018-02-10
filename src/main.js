@@ -26,11 +26,6 @@ const requestAll = `query {
 
 const ids = ["icon-BS!", "icon-Meh.", "icon-Wow"];
 
-const ids2 = [{
-    DOMid: "icon-BS!",
-    voteValue: -1
-}]
-
 function getPageURL() {return window.location.href;}
 
 

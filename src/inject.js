@@ -1,6 +1,10 @@
 import './style.css'
+import {hide, isLoggedIn, LogIn, createDOMElement} from "./utils";
 
 console.log("InjectWisdom")
+
+
+//move login views to popup.js ....
 
 const opinionText = document.createElement('textarea')
 opinionText.setAttribute("class", "opinionText")
@@ -12,19 +16,13 @@ loginInput.setAttribute("id", "account")
 
 const loginBtn = document.createElement('span')
 loginBtn.setAttribute("class", "submitBtn")
-loginBtn.innerText = "SUBMIT";
+loginBtn.textContent = "SUBMIT";
 
-loginBtn.addEventListener("click", function() {
-    if (loginInput.value) {
-        chrome.storage.sync.set({'userName': loginInput.value}, function() {
-            // Notify that we saved.
-            console.log('Username saved');
-        });
-    }
-    loginArea.setAttribute("id",'hidden');
-    alert("user logged in as ", loginInput.value)
-
+loginBtn.addEventListener("click", function () {
+    LogIn(loginBtn.value)
+    hide(loginArea)
 })
+
 
 const loginArea = document.createElement("div")
 loginArea.setAttribute("id", "inputFieldX")
@@ -32,12 +30,10 @@ loginArea.setAttribute("id", "inputFieldX")
 loginArea.appendChild(loginInput)
 loginArea.appendChild(loginBtn)
 
-chrome.storage.sync.get("userName", function(items){
-    if(items.userName) {
-        loginArea.setAttribute("id", "hidden")
-    };
 
-})
+if (!isLoggedIn()) {
+    hide(loginArea)
+}
 
 
 const submitTextBtn = document.createElement('span')
@@ -47,9 +43,7 @@ submitTextBtn.innerText = "SUBMIT"
 submitTextBtn.setAttribute("id", "hidden");
 opinionText.setAttribute("id", "hidden")
 
-console.log(chrome.storage.sync, "got it")
-
-const FeedbackStruct = {
+const iconPresets = {
     bullshit: {
         tooltip: "BS!",
         iconClass: "fas fa-times",
@@ -70,30 +64,31 @@ const FeedbackStruct = {
 const feedback = document.createElement("section");
 
 
-
 feedback.setAttribute("class", "iconBar")
-const feedbacktext = document.createElement("span");
 const icons = [1, 1, 1].map(e => document.createElement("i"))
 
 const textbox = document.createElement("div");
 textbox.setAttribute("class", "textbox")
 const texts = [];
 
-let c = 0;
-for (let f in FeedbackStruct) {
-    if (FeedbackStruct.hasOwnProperty(f)) { //bestmap!
 
-        icons[c].setAttribute("class", FeedbackStruct[f]["iconClass"]);
-        icons[c].setAttribute("title", FeedbackStruct[f]["tooltip"]); //doesn't do anything
-        icons[c].setAttribute("id", FeedbackStruct[f]["id"]); //doesn't do anything
 
-        icons[c].setAttribute("data-tooltip", FeedbackStruct[f]["tooltip"]); //doesn't do anything
+    let c = 0;
+    for (let f in iconPresets) {
+        if (iconPresets.hasOwnProperty(f)) { //bestmap!
 
-        texts[c] = document.createElement("span");
-        texts[c].innerText = FeedbackStruct[f]["tooltip"];
-        c++;
+            icons[c].setAttribute("class", iconPresets[f]["iconClass"]);
+            icons[c].setAttribute("title", iconPresets[f]["tooltip"]); //doesn't do anything
+            icons[c].setAttribute("id", iconPresets[f]["id"]); //doesn't do anything
+
+            icons[c].setAttribute("data-tooltip", iconPresets[f]["tooltip"]); //doesn't do anything
+
+            texts[c] = document.createElement("span");
+            texts[c].innerText = iconPresets[f]["tooltip"];
+            c++;
+        }
     }
-}
+
 
 //Attach
 for (let i of icons) {
@@ -120,6 +115,4 @@ window.addEventListener("load", function () {
     document.body.appendChild(loginArea)
 
     document.body.appendChild(wisContainer);
-
-    localStorage.setItem("user", "ryan")
 })
