@@ -1,0 +1,194 @@
+html {
+  border: 3px solid #ffa043;
+
+}
+
+.textbox2 {
+  display:flex;
+  justify-content: center;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  /*max-width: 40vw;*/
+  /*min-width: 20vw;*/
+  background: #3d3b3d;
+  min-height:1.2rem;
+  color: #fcffea;
+  box-shadow: 0px 1px 1px rgba(50, 50, 50, 0.75);
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  width:100vw;
+
+}
+body {
+  min-height:93vh;
+  /*width:52vh;*/
+  background: #fff775;
+  align-items: center;
+}
+h1 {
+  color:rgba(50,50,50,0.9);
+  align-self: center;
+  font-size: 2rem;
+  font-weight: lighter;
+  margin:0;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+.button {
+  background: #ffa043;
+  color: rgba(50,50,50,0.9);
+  font-size:1rem;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  height:2rem;
+  width: 100vw;
+  align-self: center;
+  align-items: center;
+  /*box-shadow: 0px 1px 1px rgba(50, 50, 50, 0.75);*/
+}
+.button:hover{
+  cursor:pointer;
+}
+
+.container_groupView {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+
+
+/**/
+
+
+
+
+
+.fa-sticker-mule {
+  font-size: 32px;
+  color: rgba(50,50,50,0.85);
+}
+.fa-sticker-mule:hover{
+  color: #efcb41;
+  cursor: pointer
+
+}
+
+.fa-studiovinari {
+  font-size: 32px;
+  color: rgba(50,50,50,0.85);
+
+}
+.fa-studiovinari:hover{
+  color: #74e2ff;
+  cursor: pointer
+
+}
+
+.btntext{
+  cursor:pointer;
+}
+
+.submitBtn{
+  width:100%;
+  min-height:3rem;
+  align-self: center;
+  text-align: center;
+  color:white;
+  font-weight: bold;
+  height: 1.5rem;
+  background: #6b48db;
+  cursor:pointer;
+}
+
+.submitBtn_opinion{
+  width:100%;
+  min-height:3rem;
+  align-self: center;
+  text-align: center;
+  color:white;
+  font-weight: bold;
+  height: 1.5rem;
+  background: #6b48db;
+  cursor:pointer;
+}
+
+#inputFieldX{
+    top:8vh;
+    right:3vh;
+    min-height:5vh;
+    background:#efcb41;
+    position:fixed;
+}
+
+#hidden {
+  visibility: hidden;
+}
+
+.opinionArea{
+  min-height:15vh;
+
+}
+
+.fa-times{
+  font-size: 32px;
+  color: rgba(50,50,50,0.85);
+}
+
+.fa-times:hover{
+  color: #ff523c;
+  cursor: pointer
+
+}
+
+.wisContainer {
+  bottom: 5vh;
+  right: 0vh;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-self:center;
+  max-width: 30vw;
+  min-width: 20vw;
+}
+
+.fa-sticker-mule:hover .tooltiptext {
+  visibility: visible;
+}
+
+.iconBar {
+  display: flex;
+  /*background: black;*/
+  background: #feff00;
+  color: rgba(50,50,50,0.9);
+  justify-content: space-evenly;
+
+  min-height:5vh;
+  align-items: center;
+  box-shadow: 0px 2px 1px rgba(50, 50, 50, 0.75);
+}
+
+.textbox {
+  display:flex;
+  justify-content: space-evenly;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  /*max-width: 40vw;*/
+  /*min-width: 20vw;*/
+  text-align:center;
+  background: #292829;
+  min-height:1.2rem;
+  color: #fcffea;
+  box-shadow: 0px 1px 1px rgba(50, 50, 50, 0.75);
+  padding-left:0.3rem;
+}
+.textbox > * {
+  align-self: center;
+  font-size: 0.8rem;
+}
+
+.feedbackBtn {
+  height: 2rem;
+  width: 2rem;
+}

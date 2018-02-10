@@ -1,0 +1,34 @@
+{
+  "name" : "Knowledge Graphing",
+  "version" : "1",
+  "description" : "Maria & Markus Trial 1",
+  "permissions": [
+    "https://*/*", "http://*/*", "storage", "tabs"
+  ],
+  "optional_permissions":[
+    "notifications",
+    "browsingData"
+  ],
+  "background": {
+    "scripts": ["inject.bundle.js", "main.bundle.js"]
+  },
+  "content_scripts":
+  [{
+      "matches":["https://*/*", "http://*/*"],
+      "match_about_blank": true,
+      "js": ["inject.bundle.js", "main.bundle.js"],
+    "css": ["bundle.css"]
+  }],
+  "web_accessible_resources": [
+    "votingBar.html",
+    "*.js"
+
+  ],
+
+  "browser_action": {
+     "default_icon": "assets/icon-32.png",
+     "default_popup": "popup.html",
+    "default_title": "Clicking does little"
+  },
+  "manifest_version": 2
+}
