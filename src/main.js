@@ -1,6 +1,12 @@
 import {request} from 'graphql-request'
 import './style.css'
+import {container_feedback, commentBox, commentSubmit} from './inject.js'
 
+const FontAwesome = document.createElement("script");
+FontAwesome.setAttribute("src", "https://use.fontawesome.com/releases/v5.0.6/js/all.js")
+document.body.appendChild(FontAwesome);
+
+document.body.appendChild(container_feedback);
 
 const query = `{hello(name:"Hackmind"){message}}`;
 
@@ -9,11 +15,6 @@ const query = `{hello(name:"Hackmind"){message}}`;
 const postOpinionLoc = "https://api.graph.cool/simple/v1/cjdeskbto3tuh011134m3pto9";
 
 request('https://api.graph.cool/simple/v1/cjdd66m810f1s0165fe0efssz', query).then(data => console.log(data))
-
-function postVote(pageURL, vote) {
-    const myQuery = "some";
-    //request();
-}
 
 const requestAll = `query {
     allReviews(orderBy:review_ASC) {
@@ -29,15 +30,45 @@ const ids = ["icon-BS!", "icon-Meh.", "icon-Wow"];
 function getPageURL() {return window.location.href;}
 
 
-
-
-function reqDetails(currentUser, myPage, opinionStr) {
-   return ` mutation {
+const API_Calls = {
+    allData: {
+        url: "",
+        details(){
+            return `query {
+    allReviews(orderBy:review_ASC) {
+        review
+        reviewedBy
+        id
+        url
+    }
+}`
+        }
+    },
+    vote:{
+        url: "",
+        details(rating, currentUser = currentUser){
+            return ` mutation {
+  createReview(review: ${rating}, 
+  reviewedBy: "Hackmind",
+  user: "${currentUser}",
+  url: "${window.location.href}"){
+    review
+    reviewedBy
+    url
+    user
+  }
+} `
+        }
+    },
+    comment:{
+        url:"",
+        details(comment, currentUser = currentUser){
+            return ` mutation {
   createReview(review: ${0}, 
   reviewedBy: "Hackmind",
   user: "${currentUser}",
-  url: "${myPage}",
-  opinion: "${opinionStr}"){
+  url: "${window.location.href}",
+  opinion: "${comment}"){
     review
     reviewedBy
     url
@@ -45,7 +76,11 @@ function reqDetails(currentUser, myPage, opinionStr) {
     opinion
   }
 } `
-}
+        }
+    }
+};
+
+
 let currentUser;
 let opinion;
 let submitTextBtn;
@@ -58,28 +93,29 @@ document.onreadystatechange = () => {
 
             //GET ICONs from DOM
             const buttons = ids.map(e => document.getElementById(e));
-            opinion = document.getElementsByClassName("opinionText")[0]
+            opinion = document.getElementsByClassName("commentBox")[0]
             submitTextBtn = document.getElementsByClassName("submitBtn_opinion")[0]
 
             //submitTextBtn is from inject.js
             submitTextBtn.addEventListener("click", function () {
-                let opinionStr = document.getElementsByClassName("opinionText")[0].value
+                let opinionStr = document.getElementsByClassName("commentBox")[0].value
                     .replace(/\n/g, "\r\n").replace(/\r\r/g, "\r");
 
                 opinionStr = opinionStr.toString()
                 //no ENTER in textarea!!
 
                 //request() //create ContentShema
-                submitTextBtn.setAttribute("id", "hidden");
-                opinion.setAttribute("id", "hidden")
-                let textPost = reqDetails(
-                    currentUser,
-                    getPageURL(),
-                    opinionStr
-                    );
+                // submitTextBtn.setAttribute("id", "hidden");
+                // opinion.setAttribute("id", "hidden")
+                let textPost = API_Calls.comment.details(opinionStr);
+
 
                 console.log(textPost, "textpost")
-                request(postOpinionLoc, textPost).then(data => console.log(data, "with comment"))
+                request(postOpinionLoc, textPost).then(data => {
+                    console.log(data, "with comment");
+                    submitTextBtn.hidden = true;
+                    opinion.hidden = true;
+                })
 
 
             })
@@ -116,8 +152,8 @@ document.onreadystatechange = () => {
                         //AFTER VOTE
                         // changeIconBarToInputBar();
 
-                        submitTextBtn.setAttribute("id", "show");
-                        opinion.setAttribute("id", "show")
+                        submitTextBtn.hidden = false;
+                        opinion.hidden = false;
 
                         console.log("aahhhhh smth is back", data)
 

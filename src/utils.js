@@ -1,10 +1,7 @@
-export const hide = function (div) {
-    div.setAttribute("id", "hidden")
-}
 
 export const isLoggedIn = function () {
     chrome.storage.sync.get("userName", function (items) {
-        if (items.userName) {
+        if (items.userName.length > 0) {
             return true
         }
     })
@@ -33,6 +30,7 @@ export const setAttr = function (el) {
                 a, attr[a]
             )
         }
+        return el;
     }
 }
 

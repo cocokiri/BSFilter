@@ -88,7 +88,7 @@ h1 {
   cursor:pointer;
 }
 
-.submitBtn{
+.login_submit{
   width:100%;
   min-height:3rem;
   align-self: center;
@@ -112,9 +112,8 @@ h1 {
   cursor:pointer;
 }
 
-#inputFieldX{
-    top:8vh;
-    right:3vh;
+#loginField{
+    bottom:5vh;
     min-height:5vh;
     background:#efcb41;
     position:fixed;
@@ -124,7 +123,7 @@ h1 {
   visibility: hidden;
 }
 
-.opinionArea{
+.commentBox{
   min-height:15vh;
 
 }
@@ -140,7 +139,7 @@ h1 {
 
 }
 
-.wisContainer {
+.containerFeedback {
   bottom: 5vh;
   right: 0vh;
   position: fixed;
