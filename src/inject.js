@@ -1,5 +1,7 @@
 import './style.css'
 import {setAttr} from "./utils";
+import {request} from "graphql-request";
+import {API_Calls} from "./apiCalls";
 
 
 const commentBox = document.createElement('textarea')
@@ -14,27 +16,53 @@ commentSubmit.hidden = true;
 commentBox.hidden = true;
 
 
+//submitTextBtn is from inject.js
+commentSubmit.addEventListener("click", function () {
+    console.log("comment submit!", this)
+    if (!commentBox.value) {
+        return;
+    }
+    let comment = commentBox.value
+        .replace(/\n/g, "\r\n").replace(/\r\r/g, "\r");
+
+    request(API_Calls.comment.url, API_Calls.comment.details(comment))
+        .then(data => {
+            console.log(data, "with comment");
+            commentSubmit.hidden = true;
+            commentBox.hidden = true;
+        })
+})
+
+
 const iconPresets = [
     {
         title: "BS!",
         class: "fas fa-times",
-        id: "icon-BS!"
+        id: "icon-BS!",
+        color: 'red',
     },
     {
         title: "Meh.",
         class: "fab fa-sticker-mule",
-        id: "icon-Meh."
+        id: "icon-Meh.",
+        color: "orange"
     },
     {
         title: "Wow",
         class: "fab fa-studiovinari",
-        id: "icon-Wow"
+        id: "icon-Wow",
+        color: "blue"
     }
 ];
 
 const icons = iconPresets.map(p => setAttr(document.createElement("i"))(p)) //currying!
 const texts = iconPresets.map(p => document.createElement("span"));
-texts.map((t,i) => {t.textContent = iconPresets[i].title});
+texts.map((t, i) => {
+    t.textContent = iconPresets[i].title
+});
+
+
+
 
 const iconBar = document.createElement("section");
 iconBar.setAttribute("class", "iconBar")
@@ -51,7 +79,6 @@ for (let t of texts) {
 }
 
 
-
 const container_feedback = document.createElement("div");
 
 container_feedback.setAttribute("class", "containerFeedback")
@@ -60,5 +87,5 @@ container_feedback.appendChild(commentSubmit)
 container_feedback.appendChild(iconBar);
 container_feedback.appendChild(textbox)
 
-export {container_feedback, commentBox, commentSubmit};
+export {container_feedback, commentBox, commentSubmit, icons};
 

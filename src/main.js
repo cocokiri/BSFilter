@@ -1,6 +1,7 @@
 import {request} from 'graphql-request'
 import './style.css'
-import {container_feedback, commentBox, commentSubmit} from './inject.js'
+import {container_feedback, commentBox, commentSubmit, icons} from './inject.js'
+import {API_Calls} from "./apiCalls";
 
 const FontAwesome = document.createElement("script");
 FontAwesome.setAttribute("src", "https://use.fontawesome.com/releases/v5.0.6/js/all.js")
@@ -8,168 +9,54 @@ document.body.appendChild(FontAwesome);
 
 document.body.appendChild(container_feedback);
 
-const query = `{hello(name:"Hackmind"){message}}`;
-
-
-
-const postOpinionLoc = "https://api.graph.cool/simple/v1/cjdeskbto3tuh011134m3pto9";
-
-request('https://api.graph.cool/simple/v1/cjdd66m810f1s0165fe0efssz', query).then(data => console.log(data))
-
-const requestAll = `query {
-    allReviews(orderBy:review_ASC) {
-        review
-        reviewedBy
-        id
-        url
-    }
-}`;
-
-const ids = ["icon-BS!", "icon-Meh.", "icon-Wow"];
-
-function getPageURL() {return window.location.href;}
-
-
-const API_Calls = {
-    allData: {
-        url: "",
-        details(){
-            return `query {
-    allReviews(orderBy:review_ASC) {
-        review
-        reviewedBy
-        id
-        url
-    }
-}`
-        }
-    },
-    vote:{
-        url: "",
-        details(rating, currentUser = currentUser){
-            return ` mutation {
-  createReview(review: ${rating}, 
-  reviewedBy: "Hackmind",
-  user: "${currentUser}",
-  url: "${window.location.href}"){
-    review
-    reviewedBy
-    url
-    user
-  }
-} `
-        }
-    },
-    comment:{
-        url:"",
-        details(comment, currentUser = currentUser){
-            return ` mutation {
-  createReview(review: ${0}, 
-  reviewedBy: "Hackmind",
-  user: "${currentUser}",
-  url: "${window.location.href}",
-  opinion: "${comment}"){
-    review
-    reviewedBy
-    url
-    user
-    opinion
-  }
-} `
-        }
-    }
-};
-
-
-let currentUser;
-let opinion;
-let submitTextBtn;
-
 document.onreadystatechange = () => {
     if (document.readyState === 'complete') {
         // document is ready
-        window.setTimeout(function () {
+        window.setTimeout(function() {
             console.log('document is reaydy ...', window.document, document.getElementsByTagName("body"))
+            const ids = ["icon-BS!", "icon-Meh.", "icon-Wow"]
+            const buttons = ids.map(e => document.getElementById(e))
 
-            //GET ICONs from DOM
-            const buttons = ids.map(e => document.getElementById(e));
-            opinion = document.getElementsByClassName("commentBox")[0]
-            submitTextBtn = document.getElementsByClassName("submitBtn_opinion")[0]
+            console.assert(buttons[0] === icons[0], "same story?")
+            //imported icons are not the same...as the ones in the dom
 
-            //submitTextBtn is from inject.js
-            submitTextBtn.addEventListener("click", function () {
-                let opinionStr = document.getElementsByClassName("commentBox")[0].value
-                    .replace(/\n/g, "\r\n").replace(/\r\r/g, "\r");
-
-                opinionStr = opinionStr.toString()
-                //no ENTER in textarea!!
-
-                //request() //create ContentShema
-                // submitTextBtn.setAttribute("id", "hidden");
-                // opinion.setAttribute("id", "hidden")
-                let textPost = API_Calls.comment.details(opinionStr);
-
-
-                console.log(textPost, "textpost")
-                request(postOpinionLoc, textPost).then(data => {
-                    console.log(data, "with comment");
-                    submitTextBtn.hidden = true;
-                    opinion.hidden = true;
-                })
-
-
-            })
-
-            console.log(buttons, "Button!")
-
-            request(postOpinionLoc, requestAll).then(data => console.log(data, "ALL"));
-
-            // let currentUser = localStorage.getItem("user") || "unregistered";
-            chrome.storage.sync.get("userName", function(items){
-                currentUser = items.userName;
-                console.log(currentUser,"  = username")
-            })
-
-            //MAKE THEM BUTTONS
             buttons.map(function (e, i) {
+                e.clicked = false;
+                console.log('icon', e, "as    d   ", i)
+
                 e.addEventListener("click", function (ev) {
-                    const myPage = getPageURL();
-                    //postVote();
-                    console.log("you clicked " + i + " yee");
-                    const f = request(postOpinionLoc,
-                        ` mutation {
-  createReview(review: ${i-1}, 
-  reviewedBy: "Hackmind",
-  user: "${currentUser}",
-  url: "${myPage}"){
-    review
-    reviewedBy
-    url
-    user
-  }
-} `
-                    ).then(data => {
-                        //AFTER VOTE
-                        // changeIconBarToInputBar();
+                    console.log('clicked icon ' + i)
+                    request(API_Calls.vote.url, API_Calls.vote.details(i))
+                        .then(data => {
+                            commentSubmit.hidden = false;
+                            commentBox.hidden = false;
 
-                        submitTextBtn.hidden = false;
-                        opinion.hidden = false;
+                            console.log("aahhhhh smth is back", data)
+                        });
 
-                        console.log("aahhhhh smth is back", data)
+                    //keep color when already voted-- has to synched with DB
+                    e.clicked = !e.clicked;
+                    if (e.clicked) {
+                        e.style.color = e.getAttribute('color');
+                    }
+                    else {
+                        e.style.color = "";
+                    }
 
-
-                    })
                 })
-            })
+            });
+
+
+
+
+
+            request(API_Calls.allData.url, API_Calls.allData.details()).then(data => console.log(data, "ALL"));
+
         }, 2000)
-
-
     }
     else {
         console.log("ASDASD- not ready yet")
     }
 };
-
-
 
 console.log('bundle.main.js ran through');
