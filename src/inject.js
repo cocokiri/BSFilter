@@ -16,6 +16,9 @@ commentSubmit.hidden = true;
 commentBox.hidden = true;
 
 
+
+
+
 //submitTextBtn is from inject.js
 commentSubmit.addEventListener("click", function () {
     console.log("comment submit!", this)

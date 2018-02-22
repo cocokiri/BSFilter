@@ -22,6 +22,9 @@ body {
   background: #fff775;
   align-items: center;
 }
+#myoptions {
+  margin-bottom: 1rem;
+}
 h1 {
   color:rgba(50,50,50,0.9);
   align-self: center;
